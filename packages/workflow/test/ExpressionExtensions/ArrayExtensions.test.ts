@@ -239,14 +239,23 @@ describe('Data Transformation Functions', () => {
 			).toEqual([{ test1: 1 }, 1, 2, 0, { test: 'asdf' }]);
 		});
 
-		test('.chunk() should work on an array', () => {
-			expect(evaluate('={{ numberList(1, 20).chunk(5) }}')).toEqual([
-				[1, 2, 3, 4, 5],
-				[6, 7, 8, 9, 10],
-				[11, 12, 13, 14, 15],
-				[16, 17, 18, 19, 20],
-			]);
-		});
+                test('.chunk() should work on an array', () => {
+                        expect(evaluate('={{ numberList(1, 20).chunk(5) }}')).toEqual([
+                                [1, 2, 3, 4, 5],
+                                [6, 7, 8, 9, 10],
+                                [11, 12, 13, 14, 15],
+                                [16, 17, 18, 19, 20],
+                        ]);
+                });
+
+                test('.chunk() should throw for non-positive chunk size', () => {
+                        expect(() => evaluate('={{ [1,2,3].chunk(0) }}')).toThrow(
+                                'chunk(): expected a positive numeric arg, e.g. .chunk(5)',
+                        );
+                        expect(() => evaluate('={{ [1,2,3].chunk(-1) }}')).toThrow(
+                                'chunk(): expected a positive numeric arg, e.g. .chunk(5)',
+                        );
+                });
 
 		test('.toJsonString() should work on an array', () => {
 			expect(evaluate('={{ [true, 1, "one", {foo: "bar"}].toJsonString() }}')).toEqual(

@@ -166,10 +166,10 @@ function smartJoin(value: unknown[], extraArgs: string[]): object {
 }
 
 function chunk(value: unknown[], extraArgs: number[]) {
-	const [chunkSize] = extraArgs;
-	if (typeof chunkSize !== 'number' || chunkSize === 0) {
-		throw new ExpressionExtensionError('chunk(): expected non-zero numeric arg, e.g. .chunk(5)');
-	}
+        const [chunkSize] = extraArgs;
+        if (typeof chunkSize !== 'number' || chunkSize <= 0) {
+                throw new ExpressionExtensionError('chunk(): expected a positive numeric arg, e.g. .chunk(5)');
+        }
 	const chunks: unknown[][] = [];
 	for (let i = 0; i < value.length; i += chunkSize) {
 		// I have no clue why eslint thinks 2 numbers could be anything but that but here we are
